@@ -1,0 +1,13 @@
+.counter {
+    display: block;
+    margin: 0 auto;
+    width: 150px;
+    height: 70px;
+    background-color: greenyellow;
+    border-radius: 10px;
+    font-size: 40px;
+}
+
+.error{
+    color: red;
+}
