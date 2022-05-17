@@ -1,60 +1,1 @@
-import React, {useRef} from 'react';
-import './App.css';
-import {ActionBar} from './Components/ActionBar';
-import {MaxIncrement} from './Components/MaxIncrement';
-import {MinIncrement} from './Components/MinIncrement';
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./store/store";
-import {applyDataAC, incCounterValueAC, maxCounterValueAC, minCounterValueAC} from "./store/counter-reducer";
-
-
-export const App = () => {
-
-    const counter = useSelector<AppRootStateType, number>(state => state.counter.value)
-    const maxValue = useSelector<AppRootStateType, number>(state => state.counter.maxValue)
-    const minValue = useSelector<AppRootStateType, number>(state => state.counter.minValue)
-
-    const dispatch = useDispatch()
-    const refMax = useRef(null)
-    const refMin = useRef(null)
-
-    const increment = () => {
-        dispatch(incCounterValueAC())
-    }
-
-    const maxValueHandler = (maxNum: number) => {
-        dispatch(maxCounterValueAC(maxNum))
-    }
-
-    const minValueHandler = (minNum: number) => {
-        dispatch(minCounterValueAC(minNum))
-    }
-
-    const onClickButtonHandler = () => {
-        dispatch(applyDataAC())
-    }
-
-    return (
-        <div className="app">
-            <div className={"settingsCounter"}>
-                <MaxIncrement name={'max.'} maxValueHandler={maxValueHandler} ref={refMax}/>
-                <MinIncrement name={'min.'} minValueHandler={minValueHandler} ref={refMin}/>
-                <button
-                    // disabled={!isEdit}
-                    onClick={onClickButtonHandler}
-                >Применить
-                </button>
-            </div>
-
-            <div className={"counterOut"}>
-
-                {counter}
-
-                <ActionBar
-                    counter={counter}
-                    increment={increment}
-                />
-            </div>
-        </div>
-    );
-}
+import React, {useRef, useState} from 'react';import './App.css';import {ActionBar} from './Components/ActionBar';import {MaxIncrement} from './Components/MaxIncrement';import {MinIncrement} from './Components/MinIncrement';import {useDispatch, useSelector} from "react-redux";import {AppRootStateType} from "./store/store";import {    applyDataAC,    incCounterValueAC, isEditAC, maxCounterValueAC,    minCounterValueAC} from "./store/counter-reducer";// export const message = {//     error: 'incorrect value',//     default: "press for apply"// }export const App = () => {    const counter = useSelector<AppRootStateType, number>(state => state.counter.value)    const numMax = useSelector<AppRootStateType, number>(state => state.counter.maxValue)    const numMin = useSelector<AppRootStateType, number>(state => state.counter.minValue)    const isEdit = useSelector<AppRootStateType, boolean>(state => state.counter.isEdit)    const messageError = useSelector<AppRootStateType, string>(state => state.counter.message.error)    const messageDefault = useSelector<AppRootStateType, string>(state => state.counter.message.default)    const dispatch = useDispatch()    const refMax = useRef(null)    const refMin = useRef(null)    const [status, setStatus] = useState('')    const increment = () => {        dispatch(incCounterValueAC())    }    const maxValueHandler = (maxNum: number) => {        dispatch(maxCounterValueAC(maxNum))    }    const minValueHandler = (minNum: number) => {        dispatch(minCounterValueAC(minNum))    }    const onClickButtonHandler = () => {        dispatch(applyDataAC())        dispatch(isEditAC(true))    }    return (        <div className="app">            <div className={"settingsCounter"}>                <MaxIncrement name={'max.'} maxValueHandler={maxValueHandler} ref={refMax}                              setStatus={setStatus}                />                <MinIncrement name={'min.'} minValueHandler={minValueHandler} ref={refMin}                              setStatus={setStatus}                />                <button                    // disabled={!isEdit}                    onClick={onClickButtonHandler}                    disabled={numMin > numMax}                > apply                </button>            </div>            <div className={"counterOut"}>                {isEdit ? <div>{counter}</div> : <div> {status} </div> }                {/*{counter}*/}                <ActionBar                    counter={counter}                    increment={increment}                />            </div>        </div>    );}
