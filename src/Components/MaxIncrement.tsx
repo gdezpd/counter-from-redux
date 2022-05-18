@@ -11,7 +11,7 @@ type MaxIncrementPropsType = {
 }
 
 
-export const MaxIncrement = forwardRef<HTMLInputElement, MaxIncrementPropsType>(({...rest}, ref) => {
+export const MaxIncrement = forwardRef<HTMLInputElement, MaxIncrementPropsType>(({...props}, ref) => {
 
     const maxValue = useSelector<AppRootStateType, number>(state => state.counter.maxValue)
     const minValue = useSelector<AppRootStateType, number>(state => state.counter.minValue)
@@ -21,25 +21,25 @@ export const MaxIncrement = forwardRef<HTMLInputElement, MaxIncrementPropsType>(
     const dispatch = useDispatch()
 
     const maxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        // rest.setStatus(message.error)
-        rest.maxValueHandler(+e.currentTarget.value)
-        if (minValue > maxValue ) {
-            rest.setStatus(messageError)
-        } else {
-            rest.setStatus(messageDefault)
+        // props.setStatus(message.error)
+        props.maxValueHandler(+e.currentTarget.value)
+        if (+e.currentTarget.value >= minValue ) {
+            props.setStatus(messageDefault)
             dispatch(isEditAC(false))
+        } else {
+            props.setStatus(messageError)
         }
     }
 
     // const maxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    //     rest.setStatus(messageError)
-    //     rest.maxValueHandler(+e.currentTarget.value)
+    //     props.setStatus(messageError)
+    //     props.maxValueHandler(+e.currentTarget.value)
     //     dispatch(isEditAC(false))
     // }
 
     return (
         <div>
-            {rest.name}
+            {props.name}
             <input
                 ref={ref}
                 value={maxValue}

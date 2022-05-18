@@ -11,7 +11,7 @@ type MinIncrementPropsType = {
 }
 
 
-export const MinIncrement = forwardRef<HTMLInputElement, MinIncrementPropsType>(({...rest}, ref) => {
+export const MinIncrement = forwardRef<HTMLInputElement, MinIncrementPropsType>(({...props}, ref) => {
 
     const maxValue = useSelector<AppRootStateType, number>(state => state.counter.maxValue)
     const minValue = useSelector<AppRootStateType, number>(state => state.counter.minValue)
@@ -21,19 +21,19 @@ export const MinIncrement = forwardRef<HTMLInputElement, MinIncrementPropsType>(
     const dispatch = useDispatch()
 
     const minValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        // rest.setStatus(message.error)
-        rest.minValueHandler(+e.currentTarget.value)
-        if (minValue > maxValue ) {
-            rest.setStatus(messageError)
+        // props.setStatus(message.error)
+        props.minValueHandler(+e.currentTarget.value)
+        if (maxValue >= +e.currentTarget.value ) {
+            props.setStatus(messageDefault)
+            dispatch(isEditAC(false))
         } else {
-            rest.setStatus(messageDefault)
-        dispatch(isEditAC(false))
+            props.setStatus(messageError)
         }
 
     }
     return (
         <div>
-            {rest.name}
+            {props.name}
             <input
                 ref={ref}
                 value={minValue}

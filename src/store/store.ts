@@ -7,8 +7,8 @@ const rootReducer = combineReducers({
     counter: counterReducer
 })
 // непосредственно создаём store
+// export const store = createStore(rootReducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() );
 export const store = createStore(rootReducer);
-
 store.subscribe(() => {
     localStorage.setItem('value', JSON.stringify(store.getState()))
 })
